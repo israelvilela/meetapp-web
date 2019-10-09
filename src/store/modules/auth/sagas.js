@@ -1,22 +1,27 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
-
+import { toast } from 'react-toastify';
 import history from '~/services/history';
 import api from '~/services/api';
-import { signInSuccess } from './actions';
+import { signInSuccess, signFailure } from './actions';
 
 export function* signIn({ payload }) {
-  const { email, password } = payload;
-  console.log('aquiiii', email);
-  const response = yield call(api.post, 'sessions', {
-    email,
-    password,
-  });
+  try {
+    const { email, password } = payload;
 
-  const { token, user } = response.data;
+    const response = yield call(api.post, 'sessions', {
+      email,
+      password,
+    });
 
-  yield put(signInSuccess(token, user));
+    const { token, user } = response.data;
 
-  history.push('/');
+    yield put(signInSuccess(token, user));
+
+    history.push('/');
+  } catch (error) {
+    toast.error('Usuário não encontrado.');
+    yield put(signFailure());
+  }
 }
 
 export default all([takeLatest('@auth/SIGN_IN_REQUEST', signIn)]);
