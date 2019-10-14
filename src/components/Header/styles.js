@@ -44,6 +44,7 @@ export const Profile = styled.div`
     margin-right: 10px;
 
     strong {
+      font-size: 12px;
       display: block;
       color: #333;
     }
@@ -51,16 +52,18 @@ export const Profile = styled.div`
     a {
       display: block;
       margin-top: 2px;
-      font-size: 12px;
+      font-size: 10px;
       color: #999;
     }
   }
 
   button {
+    margin-left: 10px;
     border: 0;
     height: 32px;
     width: 50px;
-    background: linear-gradient(-90deg, #f64c75, #f64c75);
+    background: #fb6f91;
+    border-radius: 4px;
     color: #fff;
   }
 `;
