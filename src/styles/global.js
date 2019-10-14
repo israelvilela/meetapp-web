@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import background from '../assets/images/background.svg';
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
@@ -15,6 +16,10 @@ export default createGlobalStyle`
 
   *:focus {
     outline: 0;
+  }
+
+  body {
+    background: url(${background}) no-repeat center top;
   }
 
   html, body, #root {

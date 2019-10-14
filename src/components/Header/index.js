@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { Container, Content, Profile } from './styles';
 import { signOut } from '~/store/modules/auth/actions';
+import logo from '~/assets/images/logo.svg';
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -18,8 +19,7 @@ export default function Header() {
     <Container>
       <Content>
         <nav>
-          <span>M</span>
-          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/dashboard"><img src={logo} alt="" /></Link>
         </nav>
         <aside>
           <Profile>

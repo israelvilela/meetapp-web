@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background: #fff;
+  background: #000;
   padding: 0 30px;
 `;
 
@@ -16,6 +16,10 @@ export const Content = styled.div`
   nav {
     display: flex;
     align-items: center;
+
+    img {
+      height: 30px;
+    }
 
     span {
       margin-right: 20px;
@@ -46,7 +50,7 @@ export const Profile = styled.div`
     strong {
       font-size: 12px;
       display: block;
-      color: #333;
+      color: #fff;
     }
 
     a {
@@ -62,7 +66,7 @@ export const Profile = styled.div`
     border: 0;
     height: 32px;
     width: 50px;
-    background: #fb6f91;
+    background: #D44059;
     border-radius: 4px;
     color: #fff;
   }

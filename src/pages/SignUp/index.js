@@ -6,6 +6,8 @@ import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import { signUpRequest } from '~/store/modules/auth/actions';
 
+import logo from '~/assets/images/logo.svg';
+
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório.'),
   email: Yup.string()
@@ -25,7 +27,7 @@ export default function SignUp() {
 
   return (
     <>
-      <span>M</span>
+      <img src={logo} alt=""/>
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name="name" type="text" placeholder="Nome completo" />
         <Input name="email" type="email" placeholder="Seu email" />

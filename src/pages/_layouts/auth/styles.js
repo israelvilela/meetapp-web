@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
+import background from '~/assets/images/background.svg';
+import logo from '~/assets/images/logo.svg';
+
 export const Wrapper = styled.div`
   height: 100%;
-  background: linear-gradient(-90deg, #7159c1, #ab59c1);
+  background: #191920 url(${background}) no-repeat center top;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,7 +43,7 @@ export const Content = styled.div`
     }
 
     button {
-      background: #3b9eff;
+      background: #F94D6A;
       border: 0;
       border-radius: 4px;
       height: 44px;
@@ -52,7 +55,7 @@ export const Content = styled.div`
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, '#3b9eff')};
+        background: ${darken(0.03, '#F94D6A')};
       }
     }
 

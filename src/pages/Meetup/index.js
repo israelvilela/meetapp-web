@@ -90,7 +90,7 @@ export default function Meetup() {
 
         <button type="submit">
           <MdAddCircleOutline color="#FFF" size={16} />
-          Salvar Meetup
+          <label>Salvar Meetup</label>
         </button>
       </Form>
     </Container>

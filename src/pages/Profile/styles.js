@@ -39,19 +39,21 @@ export const Container = styled.div`
     }
 
     button {
-      background: #3b9eff;
+      display: flex;
+      justify-content: end;
+      align-items: flex-end;
+      background: #F94D6A;
       border: 0;
       border-radius: 4px;
-      height: 44px;
+      height: 30px;
       padding: 0 15px;
       color: #fff;
-      margin: 5px 0 0;
+      margin: 5px 0 0 auto;
       font-size: 16px;
-      font-weight: bold;
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, '#3b9eff')};
+        background: ${darken(0.03, '#F94D6A')};
       }
     }
 

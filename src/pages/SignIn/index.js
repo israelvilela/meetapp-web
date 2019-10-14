@@ -7,6 +7,8 @@ import * as Yup from 'yup';
 
 import { signInRequest } from '~/store/modules/auth/actions';
 
+import logo from '~/assets/images/logo.svg';
+
 const schema = Yup.object().shape({
   email: Yup.string()
     .email('Insira um email válido')
@@ -24,7 +26,7 @@ export default function SignIn() {
 
   return (
     <>
-      <span>M</span>
+      <img src={logo} alt=""/>
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name="email" type="email" placeholder="Seu email" />
         <Input name="password" type="password" placeholder="Sua senha" />

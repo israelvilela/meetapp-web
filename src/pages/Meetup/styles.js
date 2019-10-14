@@ -48,18 +48,15 @@ export const Container = styled.div`
       justify-content: end;
       align-items: flex-end;
       width: 150px;
-      background: #fb6f91;
+      background: #F94D6A;
       border: 0;
       border-radius: 4px;
-      height: 44px;
+      height: 30px;
       padding: 0 15px;
       color: #fff;
-      margin: 5px 0 0;
+      margin: 5px 0 0 auto;
       font-size: 16px;
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      
       transition: background 0.2s;
 
       &:hover {
