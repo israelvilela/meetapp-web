@@ -1,27 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useField } from '@rocketseat/unform';
 import { MdPhotoCamera } from 'react-icons/md';
-import { Container } from './styles';
+import { Container, FileUpload } from './styles';
 
 import api from '~/services/api';
 
-export default function FileInput() {
+export default function FileInput(props) {
+  const ref = useRef(null);
   const { defaultValue, registerField } = useField('file');
 
-  const [file, setFile] = useState(defaultValue && defaultValue.id);
+  const [arquivo, setArquivo] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
 
-  const ref = useRef();
-
   useEffect(() => {
-    if (ref.current) {
-      registerField({
-        name: 'file_id',
-        ref: ref.current,
-        path: 'dataset.file',
-      });
+    function setField() {
+      if (ref.current) {
+        registerField({
+          name: 'fileId',
+          ref: ref.current,
+          path: 'dataset.file',
+        });
+      }
     }
-  }, [ref, registerField]);
+
+    setField();
+  }, [registerField]);
 
   async function handleChange(e) {
     const data = new FormData();
@@ -31,25 +34,35 @@ export default function FileInput() {
 
     const { id, url } = response.data;
 
-    setFile(id);
+    setArquivo(id);
     setPreview(url);
   }
 
   return (
     <Container>
       <label htmlFor="file">
-        {/* <MdPhotoCamera title="Selecionar imagem" size={40} /> */}
         <img
           src={
             preview || 'https://api.adorable.io/avatars/285/abott@adorable.png'
           }
           alt=""
         />
+        {/* <FileUpload>
+          <img
+            src={
+              preview ||
+              'https://api.adorable.io/avatars/285/abott@adorable.png'
+            }
+            alt=""
+          />
+        </FileUpload> */}
+        {/* <MdPhotoCamera title="Selecionar imagem" size={40} /> */}
+
         <input
           type="file"
           id="file"
           accept="image/*"
-          data-file={file}
+          data-file={arquivo}
           onChange={handleChange}
           ref={ref}
         />

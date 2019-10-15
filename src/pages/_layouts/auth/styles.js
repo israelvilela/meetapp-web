@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 import background from '~/assets/images/background.svg';
-import logo from '~/assets/images/logo.svg';
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -43,7 +42,7 @@ export const Content = styled.div`
     }
 
     button {
-      background: #F94D6A;
+      background: #f94d6a;
       border: 0;
       border-radius: 4px;
       height: 44px;

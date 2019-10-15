@@ -48,7 +48,7 @@ export const Container = styled.div`
       justify-content: end;
       align-items: flex-end;
       width: 150px;
-      background: #F94D6A;
+      background: #f94d6a;
       border: 0;
       border-radius: 4px;
       height: 30px;
@@ -56,11 +56,11 @@ export const Container = styled.div`
       color: #fff;
       margin: 5px 0 0 auto;
       font-size: 16px;
-      
+
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, '#3b9eff')};
+        background: ${darken(0.03, '#F94D6A')};
       }
     }
   }

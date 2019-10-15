@@ -23,3 +23,14 @@ export const Container = styled.div`
     }
   }
 `;
+
+export const FileUpload = styled.div`
+  max-width: 900px;
+  height: 300px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

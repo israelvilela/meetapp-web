@@ -47,16 +47,27 @@ export default function Meetup() {
   }, [fieldName, location, location.state, registerField]);
 
   async function handleSubmit(data) {
-    const { title, description } = data;
+    const { title, description, fileId } = data;
 
     try {
-      await api.post('meetings', {
-        title,
-        description,
-        location: data.location,
-        date: dateMeetup,
-        file_id: 1,
-      });
+      if (meetup && meetup.id) {
+        await api.put('meetings', {
+          id: meetup.id,
+          title,
+          description,
+          location: data.location,
+          date: dateMeetup,
+          file_id: fileId,
+        });
+      } else {
+        await api.post('meetings', {
+          title,
+          description,
+          location: data.location,
+          date: dateMeetup,
+          file_id: fileId,
+        });
+      }
 
       history.pushState('/dashboard');
 
@@ -69,7 +80,7 @@ export default function Meetup() {
   return (
     <Container>
       <Form initialData={meetup} onSubmit={handleSubmit}>
-        {/* <FileInput name="input_id" /> */}
+        {/* <FileInput name="fileId" file={meetup} /> */}
         <Input name="title" placeholder="Título do Meetup" />
         <Input
           multiline
@@ -90,7 +101,7 @@ export default function Meetup() {
 
         <button type="submit">
           <MdAddCircleOutline color="#FFF" size={16} />
-          <label>Salvar Meetup</label>
+          Salvar Meetup
         </button>
       </Form>
     </Container>
