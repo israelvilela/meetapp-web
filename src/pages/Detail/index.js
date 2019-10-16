@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -19,16 +19,13 @@ export default function Detail() {
   const [meetup, setMeetup] = useState({});
 
   useEffect(() => {
-    function loadMeetup() {
-      if (location.state) {
-        const { data } = location.state;
-        if (data) {
-          setMeetup(data);
-        }
+    if (location.state) {
+      const { data } = location.state;
+      if (data) {
+        setMeetup(data);
       }
     }
-    loadMeetup();
-  });
+  }, [location.state]);
 
   function handleEdit() {
     history.push({

@@ -1,30 +1,31 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useField } from '@rocketseat/unform';
 import { MdPhotoCamera } from 'react-icons/md';
-import { Container, FileUpload } from './styles';
+import { Container } from './styles';
 
 import api from '~/services/api';
 
-export default function FileInput(props) {
-  const ref = useRef(null);
-  const { defaultValue, registerField } = useField('file');
+export default function FileInput() {
+  const ref = useRef();
+  const { defaultValue } = useField('file');
 
   const [arquivo, setArquivo] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
 
   useEffect(() => {
-    function setField() {
-      if (ref.current) {
-        registerField({
-          name: 'fileId',
-          ref: ref.current,
-          path: 'dataset.file',
-        });
+    function load() {
+      if (defaultValue) {
+        setPreview(defaultValue.url);
+        // registerField({
+        //   name: 'fileId',
+        //   ref: ref.current,
+        //   path: 'dataset.file',
+        // });
       }
     }
 
-    setField();
-  }, [registerField]);
+    load();
+  }, [defaultValue]);
 
   async function handleChange(e) {
     const data = new FormData();
@@ -37,26 +38,15 @@ export default function FileInput(props) {
     setArquivo(id);
     setPreview(url);
   }
-
+  console.log(defaultValue);
   return (
     <Container>
       <label htmlFor="file">
-        <img
-          src={
-            preview || 'https://api.adorable.io/avatars/285/abott@adorable.png'
-          }
-          alt=""
-        />
-        {/* <FileUpload>
-          <img
-            src={
-              preview ||
-              'https://api.adorable.io/avatars/285/abott@adorable.png'
-            }
-            alt=""
-          />
-        </FileUpload> */}
-        {/* <MdPhotoCamera title="Selecionar imagem" size={40} /> */}
+        {preview ? (
+          <img src={preview} alt="" />
+        ) : (
+          <MdPhotoCamera title="Selecionar imagem" size={40} />
+        )}
 
         <input
           type="file"

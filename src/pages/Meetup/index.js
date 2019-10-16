@@ -80,7 +80,7 @@ export default function Meetup() {
   return (
     <Container>
       <Form initialData={meetup} onSubmit={handleSubmit}>
-        {/* <FileInput name="fileId" file={meetup} /> */}
+        <FileInput name="fileId" />
         <Input name="title" placeholder="Título do Meetup" />
         <Input
           multiline
@@ -90,7 +90,7 @@ export default function Meetup() {
         />
         <DatePicker
           name="dateMeetup"
-          dateFormat="dd/MM/yyyy"
+          dateFormat="dd/MM/yyyy h:mm"
           placeholderText="Data do meetup"
           selected={dateMeetup}
           locale="ptBR"
