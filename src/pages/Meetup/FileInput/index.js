@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useField } from '@rocketseat/unform';
 import { MdPhotoCamera } from 'react-icons/md';
 import { Container } from './styles';
@@ -11,6 +12,9 @@ export default function FileInput() {
 
   const [arquivo, setArquivo] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
+  const meetup = useSelector(state => {
+    console.log('file', state);
+  }, {});
 
   useEffect(() => {
     function load() {

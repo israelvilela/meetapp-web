@@ -1,85 +1,84 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import DatePicker, { registerLocale } from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 
 import { useField, Form, Input } from '@rocketseat/unform';
 
 import { MdAddCircleOutline } from 'react-icons/md';
 
-import { toast } from 'react-toastify';
-import ptBR from 'date-fns/locale/pt-BR';
 import { Container } from './styles';
 
 import FileInput from './FileInput/index';
 
-import api from '~/services/api';
-import history from '~/services/history';
-
-registerLocale('ptBR', ptBR);
+import * as MeetupActions from '../../store/modules/meetup/actions';
 
 export default function Meetup() {
   const ref = useRef(null);
-  const { fieldName, registerField, defaultValue } = useField('dateMeetup');
-  const [dateMeetup, setDateMeetup] = useState(defaultValue);
-  const [meetup, setMeetup] = useState({});
-  const { location } = useHistory();
+  const { fieldName, registerField } = useField('dateMeetup');
+  const [selected, setSelected] = useState(new Date());
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     registerField({
       name: fieldName,
       ref: ref.current,
-      path: 'props.dateMeetup',
+      path: 'props.selected',
       clearValue: pickerRef => {
         pickerRef.clear();
       },
     });
-    function loadMeetup() {
-      if (location.state) {
-        const { data } = location.state;
-        if (data) {
-          setDateMeetup(new Date(data.date));
-          setMeetup(data);
-        }
-      }
-    }
-    loadMeetup();
-  }, [fieldName, location, location.state, registerField]);
+  }, [fieldName, registerField]);
 
   async function handleSubmit(data) {
-    const { title, description, fileId } = data;
+    const { title, description, location, fileId } = data;
 
-    try {
-      if (meetup && meetup.id) {
-        await api.put('meetings', {
-          id: meetup.id,
-          title,
-          description,
-          location: data.location,
-          date: dateMeetup,
-          file_id: fileId,
-        });
-      } else {
-        await api.post('meetings', {
-          title,
-          description,
-          location: data.location,
-          date: dateMeetup,
-          file_id: fileId,
-        });
-      }
+    const dado = {
+      title,
+      description,
+      location,
+      date: selected,
+      file_id: 11,
+    };
 
-      history.pushState('/dashboard');
+    // if (meetup && meetup.id) {
+    //   dispatch(
+    //     MeetupActions.updateMeetupRequest({
+    //       title,
+    //       description,
+    //       location,
+    //       date: selected,
+    //       file_id: 11,
+    //       id: meetup.id,
+    //     })
+    //   );
+    // }
+    dispatch(MeetupActions.insertMeetupRequest(dado));
 
-      toast.success('Meetup cadastrado com sucesso.');
-    } catch (error) {
-      toast.error('Erro ao cadastrar Meetup');
-    }
+    // if (meetup && meetup.id) {
+    //   await api.put('meetings', {
+    //     id: meetup.id,
+    //     title,
+    //     description,
+    //     location: data.location,
+    //     date: selected,
+    //     file_id: fileId,
+    //   });
+    // } else {
+    //   await api.post('meetings', {
+    //     title,
+    //     description,
+    //     location: data.location,
+    //     date: selected,
+    //     file_id: fileId,
+    //   });
+    // }
   }
 
   return (
     <Container>
-      <Form initialData={meetup} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FileInput name="fileId" />
         <Input name="title" placeholder="Título do Meetup" />
         <Input
@@ -89,12 +88,12 @@ export default function Meetup() {
           placeholder="Descrição completa"
         />
         <DatePicker
-          name="dateMeetup"
-          dateFormat="dd/MM/yyyy h:mm"
-          placeholderText="Data do meetup"
-          selected={dateMeetup}
-          locale="ptBR"
-          onChange={date => setDateMeetup(date)}
+          name={fieldName}
+          selected={selected}
+          onChange={date => setSelected(date)}
+          locale="pt-BR"
+          timeFormat="p"
+          dateFormat="Pp"
           ref={ref}
         />
         <Input name="location" placeholder="Localização" />

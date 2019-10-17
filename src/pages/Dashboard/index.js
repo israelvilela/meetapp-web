@@ -1,28 +1,26 @@
 import React, { useState, useEffect } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Container, Time } from './styles';
-import api from '~/services/api';
 import history from '~/services/history';
+
+import * as MeetupActions from '../../store/modules/meetup/actions';
 
 export default function Dashboard() {
   const [meetups, setMeetups] = useState([]);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    async function loadMeetups() {
-      const response = await api.get('meetings');
+    dispatch(MeetupActions.getMeetupRequest());
+  }, [dispatch]);
 
-      if (response.data) {
-        setMeetups(response.data);
-      }
-    }
-
-    loadMeetups();
-  }, []);
+  // const result = useSelector(state => state.meetup.meetups);
+  // console.log(result);
 
   function handleInsertMeetUp() {
-    history.push('meetup');
+    history.push('/meetup');
   }
 
   return (

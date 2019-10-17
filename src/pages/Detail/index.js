@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,13 +11,14 @@ import {
 } from 'react-icons/md';
 import history from '~/services/history';
 
-import { Container, EditButton, DeleteButton } from './styles';
+import * as MeetupActions from '../../store/modules/meetup/actions';
 
-import api from '~/services/api';
+import { Container, EditButton, DeleteButton } from './styles';
 
 export default function Detail() {
   const { location } = useHistory();
   const [meetup, setMeetup] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (location.state) {
@@ -25,7 +27,7 @@ export default function Detail() {
         setMeetup(data);
       }
     }
-  }, [location.state]);
+  }, [location.state, meetup]);
 
   function handleEdit() {
     history.push({
@@ -34,16 +36,11 @@ export default function Detail() {
     });
   }
 
-  async function handleDelete() {
-    try {
-      await api.delete(`meetings/${meetup.id}`);
-      toast.success('Meetup excluído com sucesso.');
-
-      history.push('/dashboard');
-    } catch (error) {
-      toast.success('Falha ao excluir meetup');
-    }
+  function handleDelete() {
+    console.log('id', meetup.id);
+    dispatch(MeetupActions.deleteMeetupRequest(meetup.id));
   }
+
   return (
     <Container>
       <header>
@@ -59,10 +56,7 @@ export default function Detail() {
           </DeleteButton>
         </div>
       </header>
-      <img
-        src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg"
-        alt=""
-      />
+      <img src={meetup.file && meetup.file.url} alt="" />
       <h1>{meetup.description}</h1>
       <MdDateRange color="eee" size={14} />
       <span>{meetup.formattedDate}</span>
