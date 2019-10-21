@@ -16,17 +16,27 @@ export const Container = styled.div`
     button {
       border: 0;
       border-radius: 4px;
-      background: #F94D6A;
+      background: #f94d6a;
       height: 30px;
       padding: 0 15px;
-      color: #fff;
       margin: 5px 0 0;
-      font-size: 16px;
-      font-weight: bold;
       transition: background 0.2s;
 
       &:hover {
         background: ${darken(0.03, '#fb6f91')};
+      }
+
+      div {
+        display: flex;
+        justify-content: baseline;
+        align-items: center;
+
+        span {
+          color: #fff;
+          font-size: 14px;
+          font-weight: bold;
+          margin-left: 5px;
+        }
       }
     }
 
@@ -49,11 +59,11 @@ export const Time = styled.li`
   margin-bottom: 10px;
   padding: 15px;
   border-radius: 4px;
-  background: #fff;
+  background: rgba(0, 0, 0, 0.1);
 
   strong {
     display: block;
-    color: #7159c1;
+    color: #fff;
     font-size: 14px;
     font-weight: bold;
   }

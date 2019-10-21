@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import {
   MdLocationOn,
   MdDateRange,
@@ -13,31 +12,32 @@ import history from '~/services/history';
 
 import * as MeetupActions from '../../store/modules/meetup/actions';
 
-import { Container, EditButton, DeleteButton } from './styles';
+import { Container, EditButton, DeleteButton, Location } from './styles';
 
 export default function Detail() {
   const { location } = useHistory();
   const [meetup, setMeetup] = useState({});
   const dispatch = useDispatch();
 
+  const result = useSelector(state => {
+    const obj = state.meetup.meetups.find(m => m.id === location.state.id);
+    return obj;
+  });
+
   useEffect(() => {
-    if (location.state) {
-      const { data } = location.state;
-      if (data) {
-        setMeetup(data);
-      }
+    if (result) {
+      setMeetup(result);
     }
-  }, [location.state, meetup]);
+  }, [result]);
 
   function handleEdit() {
     history.push({
       pathname: '/meetup',
-      state: { data: meetup },
+      state: { id: meetup.id },
     });
   }
 
   function handleDelete() {
-    console.log('id', meetup.id);
     dispatch(MeetupActions.deleteMeetupRequest(meetup.id));
   }
 
@@ -58,10 +58,16 @@ export default function Detail() {
       </header>
       <img src={meetup.file && meetup.file.url} alt="" />
       <h1>{meetup.description}</h1>
-      <MdDateRange color="eee" size={14} />
-      <span>{meetup.formattedDate}</span>
-      <MdLocationOn color="eee" size={14} />
-      <span>{meetup.location}</span>
+      <Location>
+        <div>
+          <MdDateRange color="eee" size={14} />
+          <span>{meetup.formattedDate}</span>
+        </div>
+        <div>
+          <MdLocationOn color="eee" size={14} />
+          <span>{meetup.location}</span>
+        </div>
+      </Location>
     </Container>
   );
 }

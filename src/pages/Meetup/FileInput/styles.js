@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 30px;
+  width: 900px;
+  height: 300px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border: 0;
 
   label {
     cursor: pointer;
@@ -21,16 +28,15 @@ export const Container = styled.div`
     input {
       display: none;
     }
-  }
-`;
 
-export const FileUpload = styled.div`
-  max-width: 900px;
-  height: 300px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  border: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        font-size: 16px;
+        color: #999;
+      }
+    }
+  }
 `;

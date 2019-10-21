@@ -20,27 +20,20 @@ export const Container = styled.div`
       margin: 0 0 10px;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255, 255, 255, 0.5);
       }
     }
 
     textarea {
       background: rgba(0, 0, 0, 0.1);
-      padding: 0 15px;
+      padding: 15px;
       color: #fff;
       margin: 0 0 10px;
       border: 0;
       border-radius: 4px;
       &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255, 255, 255, 0.5);
       }
-    }
-
-    span {
-      color: #fb6f91;
-      align-self: flex-start;
-      margin: 0 0 10px;
-      font-weight: bold;
     }
 
     > button {
@@ -48,19 +41,30 @@ export const Container = styled.div`
       justify-content: end;
       align-items: flex-end;
       width: 150px;
-      background: #f94d6a;
       border: 0;
       border-radius: 4px;
+      background: #f94d6a;
       height: 30px;
       padding: 0 15px;
-      color: #fff;
       margin: 5px 0 0 auto;
-      font-size: 16px;
 
       transition: background 0.2s;
 
       &:hover {
         background: ${darken(0.03, '#F94D6A')};
+      }
+
+      div {
+        display: flex;
+        justify-content: baseline;
+        align-items: center;
+
+        span {
+          color: #fff;
+          font-size: 14px;
+          font-weight: bold;
+          margin-left: 5px;
+        }
       }
     }
   }

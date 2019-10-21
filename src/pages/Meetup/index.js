@@ -1,106 +1,110 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-
-import DatePicker from 'react-datepicker';
-
-import { useField, Form, Input } from '@rocketseat/unform';
-
+import { Form, Input, useField } from '@rocketseat/unform';
+import pt from 'date-fns/locale/pt-BR';
+import React, { useEffect, useRef, useState } from 'react';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import { MdAddCircleOutline } from 'react-icons/md';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as MeetupActions from '../../store/modules/meetup/actions';
+import FileInput from './FileInput/index';
 import { Container } from './styles';
 
-import FileInput from './FileInput/index';
-
-import * as MeetupActions from '../../store/modules/meetup/actions';
+registerLocale('pt', pt);
 
 export default function Meetup() {
+  const { location } = useHistory();
   const ref = useRef(null);
-  const { fieldName, registerField } = useField('dateMeetup');
-  const [selected, setSelected] = useState(new Date());
+  const { dataMeetup, registerField } = useField('dateMeetup');
+  const [dataSelecionada, setDataSelecionada] = useState();
+  const [meetup, setMeetup] = useState({});
+
+  const result = useSelector(state => {
+    const obj = state.meetup.meetups.find(
+      m => location.state && m.id === location.state.id
+    );
+    return obj;
+  });
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     registerField({
-      name: fieldName,
+      name: dataMeetup,
       ref: ref.current,
       path: 'props.selected',
       clearValue: pickerRef => {
         pickerRef.clear();
       },
     });
-  }, [fieldName, registerField]);
+    if (meetup && meetup.date) {
+      setDataSelecionada(Date.parse(meetup.date));
+    }
+  }, [dataMeetup, meetup, registerField]);
+
+  useEffect(() => {
+    if (result) {
+      setMeetup(result);
+    }
+  }, [result]);
 
   async function handleSubmit(data) {
-    const { title, description, location, fileId } = data;
-
-    const dado = {
-      title,
-      description,
-      location,
-      date: selected,
-      file_id: 11,
-    };
-
-    // if (meetup && meetup.id) {
-    //   dispatch(
-    //     MeetupActions.updateMeetupRequest({
-    //       title,
-    //       description,
-    //       location,
-    //       date: selected,
-    //       file_id: 11,
-    //       id: meetup.id,
-    //     })
-    //   );
-    // }
-    dispatch(MeetupActions.insertMeetupRequest(dado));
-
-    // if (meetup && meetup.id) {
-    //   await api.put('meetings', {
-    //     id: meetup.id,
-    //     title,
-    //     description,
-    //     location: data.location,
-    //     date: selected,
-    //     file_id: fileId,
-    //   });
-    // } else {
-    //   await api.post('meetings', {
-    //     title,
-    //     description,
-    //     location: data.location,
-    //     date: selected,
-    //     file_id: fileId,
-    //   });
-    // }
+    const { title, description, file_id } = data;
+    if (meetup && meetup.id) {
+      dispatch(
+        MeetupActions.updateMeetupRequest({
+          title,
+          description,
+          location: data.location,
+          date: dataSelecionada,
+          file_id,
+          id: meetup.id,
+        })
+      );
+    } else {
+      dispatch(
+        MeetupActions.insertMeetupRequest({
+          title,
+          description,
+          location: data.location,
+          date: dataSelecionada,
+          file_id,
+        })
+      );
+    }
   }
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
-        <FileInput name="fileId" />
+      <Form initialData={meetup} onSubmit={handleSubmit}>
+        <FileInput name="file_id" />
         <Input name="title" placeholder="Título do Meetup" />
         <Input
           multiline
           name="description"
           rows={10}
           placeholder="Descrição completa"
+          value={meetup.description}
         />
         <DatePicker
-          name={fieldName}
-          selected={selected}
-          onChange={date => setSelected(date)}
-          locale="pt-BR"
-          timeFormat="p"
-          dateFormat="Pp"
+          placeholderText="Data do meetup"
+          name={dataMeetup}
+          selected={dataSelecionada}
+          onChange={date => setDataSelecionada(date)}
+          dateFormat="dd/MM/yyyy h:mm aa"
+          locale="pt"
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={15}
+          timeCaption="time"
           ref={ref}
         />
         <Input name="location" placeholder="Localização" />
 
         <button type="submit">
-          <MdAddCircleOutline color="#FFF" size={16} />
-          Salvar Meetup
+          <div>
+            <MdAddCircleOutline color="#FFF" size={16} />
+            <span>Salvar Meetup</span>
+          </div>
         </button>
       </Form>
     </Container>

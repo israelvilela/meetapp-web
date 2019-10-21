@@ -11,14 +11,15 @@ import {
   insertMeetupFailure,
   updateMeetupSuccess,
   updateMeetupFailure,
-  deleteMeetupSuccess,
   deleteMeetupFailure,
 } from './actions';
 
 export function* getMeetups() {
   try {
     const response = yield call(api.get, 'meetings');
-    yield put(getMeetupSuccess(response.data));
+    if (response.data) {
+      yield put(getMeetupSuccess(response.data));
+    }
   } catch (error) {
     toast.error(error.response.data.message);
     yield put(getMeetupFailure());
@@ -46,18 +47,16 @@ export function* atualizarMeetup({ payload }) {
     history.push('/dashboard');
     yield put(updateMeetupSuccess(response.data));
   } catch (error) {
-    toast.error('Erro ao atualizar meetup');
+    toast.error(error.response.data.message);
     yield put(updateMeetupFailure());
   }
 }
 
 export function* deletarMeetup({ id }) {
   try {
-    const response = yield call(api.delete, `meetings/${id}`);
-
+    yield call(api.delete, `meetings/${id}`);
     toast.success('Meetup deletado com sucesso.');
     history.push('/dashboard');
-    yield put(deleteMeetupSuccess(response.data));
   } catch (error) {
     toast.error(error.response.data.message);
     yield put(deleteMeetupFailure());

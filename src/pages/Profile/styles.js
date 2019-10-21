@@ -24,13 +24,6 @@ export const Container = styled.div`
       }
     }
 
-    span {
-      color: #fb6f91;
-      align-self: flex-start;
-      margin: 0 0 10px;
-      font-weight: bold;
-    }
-
     hr {
       border: 0;
       height: 1px;
@@ -42,29 +35,31 @@ export const Container = styled.div`
       display: flex;
       justify-content: end;
       align-items: flex-end;
-      background: #F94D6A;
+      width: 150px;
       border: 0;
       border-radius: 4px;
+      background: #f94d6a;
       height: 30px;
       padding: 0 15px;
-      color: #fff;
       margin: 5px 0 0 auto;
-      font-size: 16px;
+
       transition: background 0.2s;
 
       &:hover {
         background: ${darken(0.03, '#F94D6A')};
       }
-    }
 
-    a {
-      color: #fff;
-      margin-top: 15px;
-      font-size: 16px;
-      opacity: 0.8;
+      div {
+        display: flex;
+        justify-content: baseline;
+        align-items: center;
 
-      &:hover {
-        opacity: 1;
+        span {
+          color: #fff;
+          font-size: 14px;
+          font-weight: bold;
+          margin-left: 5px;
+        }
       }
     }
   }

@@ -44,7 +44,7 @@ export const Profile = styled.div`
   padding-left: 10px;
 
   div {
-    text-align: center;
+    text-align: end;
     margin-right: 10px;
 
     strong {
@@ -66,7 +66,7 @@ export const Profile = styled.div`
     border: 0;
     height: 32px;
     width: 50px;
-    background: #D44059;
+    background: #d44059;
     border-radius: 4px;
     color: #fff;
   }

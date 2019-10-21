@@ -16,15 +16,16 @@ export default function meetup(state = INITIAL_STATE, action) {
         break;
       }
       case '@meetup/UPDATE_MEETUP_SUCCESS': {
-        console.log(action.payload.meetup);
-        draft.meetups = [...action.payload.meetup];
-        console.log(draft.meetups);
+        const meetupIndex = draft.meetups.findIndex(
+          p => p.id === action.payload.meetup.id
+        );
+        draft.meetups[meetupIndex] = action.payload.meetup;
         break;
       }
       case '@meetup/DELETE_MEETUP_SUCCESS': {
-        console.log('draft', draft);
-        const meetupIndex = draft.findIndex(p => p.id === action.meetup.id);
-
+        const meetupIndex = draft.meetups.findIndex(
+          p => p.id === action.meetup.id
+        );
         if (meetupIndex >= 0) {
           draft.splice(meetupIndex, 1);
         }

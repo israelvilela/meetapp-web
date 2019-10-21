@@ -1,35 +1,28 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useField } from '@rocketseat/unform';
+import React, { useEffect, useRef, useState } from 'react';
 import { MdPhotoCamera } from 'react-icons/md';
+import api from '~/services/api';
 import { Container } from './styles';
 
-import api from '~/services/api';
-
 export default function FileInput() {
-  const ref = useRef();
-  const { defaultValue } = useField('file');
+  const { defaultValue, registerField } = useField('file');
 
-  const [arquivo, setArquivo] = useState(defaultValue && defaultValue.id);
+  const [file, setFile] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
-  const meetup = useSelector(state => {
-    console.log('file', state);
-  }, {});
+  const ref = useRef();
 
   useEffect(() => {
-    function load() {
-      if (defaultValue) {
-        setPreview(defaultValue.url);
-        // registerField({
-        //   name: 'fileId',
-        //   ref: ref.current,
-        //   path: 'dataset.file',
-        // });
-      }
+    if (defaultValue && ref.current) {
+      setPreview(defaultValue.url);
+      setFile(defaultValue.id);
+      registerField({
+        name: 'file_id',
+        ref: ref.current,
+        path: 'dataset.file',
+      });
     }
-
-    load();
-  }, [defaultValue]);
+  }, [defaultValue, ref.current]);
 
   async function handleChange(e) {
     const data = new FormData();
@@ -39,24 +32,32 @@ export default function FileInput() {
 
     const { id, url } = response.data;
 
-    setArquivo(id);
+    registerField({
+      name: 'file_id',
+      ref: ref.current,
+      path: 'dataset.file',
+    });
+
+    setFile(id);
     setPreview(url);
   }
-  console.log(defaultValue);
   return (
     <Container>
       <label htmlFor="file">
         {preview ? (
           <img src={preview} alt="" />
         ) : (
-          <MdPhotoCamera title="Selecionar imagem" size={40} />
+          <div>
+            <MdPhotoCamera title="Selecionar imagem" size={40} />
+            <span>Selecionar imagem</span>
+          </div>
         )}
 
         <input
           type="file"
           id="file"
           accept="image/*"
-          data-file={arquivo}
+          data-file={file}
           onChange={handleChange}
           ref={ref}
         />

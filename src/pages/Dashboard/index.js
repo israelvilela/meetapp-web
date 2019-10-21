@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import { Container, Time } from './styles';
+import { MdAddCircleOutline } from 'react-icons/md';
 import history from '~/services/history';
-
 import * as MeetupActions from '../../store/modules/meetup/actions';
+import { Container, Time } from './styles';
 
 export default function Dashboard() {
-  const [meetups, setMeetups] = useState([]);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(MeetupActions.getMeetupRequest());
-  }, [dispatch]);
+  }, []);
 
-  // const result = useSelector(state => state.meetup.meetups);
-  // console.log(result);
+  const list = useSelector(state => state.meetup.meetups);
 
   function handleInsertMeetUp() {
     history.push('/meetup');
@@ -28,27 +25,32 @@ export default function Dashboard() {
       <header>
         <strong>Meus meetups</strong>
         <button type="button" onClick={handleInsertMeetUp}>
-          Novo meetup
+          <div>
+            <MdAddCircleOutline color="#FFF" size={16} />
+            <span>Novo meetup</span>
+          </div>
         </button>
       </header>
 
       <ul>
-        {meetups.map(m => {
-          return (
-            <Link
-              to={{
-                pathname: '/detail',
-                state: { data: m },
-              }}
-              key={m.id}
-            >
-              <Time>
-                <strong>{m.title}</strong>
-                <span>{m.formattedDate} > </span>
-              </Time>
-            </Link>
-          );
-        })}
+        {list && list.length > 0
+          ? list.map(m => {
+              return (
+                <Link
+                  to={{
+                    pathname: '/detail',
+                    state: { id: m.id },
+                  }}
+                  key={m.id}
+                >
+                  <Time>
+                    <strong>{m.title}</strong>
+                    <span>{m.formattedDate} > </span>
+                  </Time>
+                </Link>
+              );
+            })
+          : null}
       </ul>
     </Container>
   );

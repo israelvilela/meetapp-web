@@ -46,7 +46,7 @@ export const EditButton = styled.button`
   border: 0;
   border-radius: 4px;
   background: #3b9eff;
-  height: 40px;
+  height: 35px;
   padding: 0 15px;
   color: #fff;
   margin: 5px 0 0;
@@ -70,8 +70,8 @@ export const EditButton = styled.button`
 export const DeleteButton = styled.button`
   border: 0;
   border-radius: 4px;
-  background: #fb6f91;
-  height: 40px;
+  background: #d44059;
+  height: 35px;
   padding: 0 15px;
   color: #fff;
   margin: 5px 0 0;
@@ -83,11 +83,28 @@ export const DeleteButton = styled.button`
   transition: background 0.2s;
 
   &:hover {
-    background: ${darken(0.03, '#fb6f91')};
+    background: ${darken(0.03, '#D44059')};
   }
 
   > span {
     color: #fff;
     margin-left: 5px;
+  }
+`;
+
+export const Location = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+  div {
+    margin-right: 10px;
+
+    span {
+      color: #ccc;
+      font-size: 12px;
+      margin-left: 5px;
+    }
   }
 `;
